@@ -22,7 +22,7 @@ jobs:
         run: pip install requests
 
       - name: Run monitor script
-        run: python monitor.py
+        run: python monitoring.py
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CHAT_ID: ${{ secrets.CHAT_ID }}
