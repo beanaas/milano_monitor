@@ -15,7 +15,7 @@ def send_telegram_message(message):
 
 # === Ticket scraper setup ===
 API_URL = "https://api-cloud.eventim.com/ecom/resale/offer-listing/prd/api/v2/platforms/38/events/19253531/offers"
-MAX_PRICE_PER_TICKET = 300
+MAX_PRICE_PER_TICKET = 100
 MIN_TICKETS = 2
 
 headers = {
