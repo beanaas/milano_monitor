@@ -35,7 +35,6 @@ EVENTS = [
         "name": "USA-DEN",
         "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253535/?affiliate=26O"
     },
-    https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253535/?affiliate=26O
     # Add more events here as needed
     # {
     #     "event_id": "XXXXXXXX",
@@ -122,7 +121,5 @@ def main():
     else:
         print("No matching tickets found for any event.")
 
-if __name__ == "__main__":
-    main()
 if __name__ == "__main__":
     main()
