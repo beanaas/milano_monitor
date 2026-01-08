@@ -13,8 +13,39 @@ def send_telegram_message(message):
     except Exception as e:
         print(f"Failed to send Telegram message: {e}")
 
+# === Events to monitor ===
+EVENTS = [
+    {
+        "event_id": "19253531",
+        "name": "SWE-SVK",
+        "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santa-giulia-ice-hockey-arena-19253531/?affiliate=26O&language=en#/generic/"
+    },
+    {
+        "event_id": "19253536",
+        "name": "CAN-LAT",
+        "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253536/?affiliate=26O"
+    },
+    {
+        "event_id": "19253513",
+        "name": "DEN-LAT",
+        "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-rho-ice-hockey-arena-19253513/?affiliate=26O"
+    },
+    {
+        "event_id": "19253535",
+        "name": "USA-DEN",
+        "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253535/?affiliate=26O"
+    },
+    https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253535/?affiliate=26O
+    # Add more events here as needed
+    # {
+    #     "event_id": "XXXXXXXX",
+    #     "name": "Event Name",
+    #     "ticket_url": "https://tickets.milanocortina2026.org/..."
+    # },
+]
+
 # === Ticket scraper setup ===
-API_URL = "https://api-cloud.eventim.com/ecom/resale/offer-listing/prd/api/v2/platforms/38/events/19253531/offers"
+API_URL_TEMPLATE = "https://api-cloud.eventim.com/ecom/resale/offer-listing/prd/api/v2/platforms/38/events/{event_id}/offers"
 MAX_PRICE_PER_TICKET = 100
 MIN_TICKETS = 2
 
@@ -35,19 +66,21 @@ headers = {
     "Priority": "u=1, i"
 }
 
-def main():
+def check_event(event):
+    """Check a single event for matching tickets."""
+    api_url = API_URL_TEMPLATE.format(event_id=event["event_id"])
+    matches = []
+    
     try:
-        r = requests.get(API_URL, timeout=10, headers=headers)
+        r = requests.get(api_url, timeout=10, headers=headers)
         r.raise_for_status()
         offers = r.json()
-
-        matches = []
-
+        
         for offer in offers:
             tickets = offer["numberOfTickets"]
             total_price = offer["totalPrice"]
             price_per_ticket = total_price / tickets
-
+            
             if tickets >= MIN_TICKETS and price_per_ticket <= MAX_PRICE_PER_TICKET:
                 match_text = (
                     f"{tickets} tickets | "
@@ -55,24 +88,41 @@ def main():
                     f"{offer['tdlPriceLevelName']} | "
                     f"Area {offer['ticketAreas']} | "
                     f"Row {offer['ticketRows']} | "
-                    f"Seats {offer['ticketSeats']}"
-                    f"link https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santa-giulia-ice-hockey-arena-19253531/?affiliate=26O&language=en#/generic/"
+                    f"Seats {offer['ticketSeats']}\n"
+                    f"Link: {event['ticket_url']}"
                 )
                 matches.append(match_text)
-
-        if matches:
-            message = "🎟️ Ticket match found!\n\n" + "\n".join(matches)
-            print(message)
-            send_telegram_message(message)
-        else:
-            print("No matching tickets found.")
-
+        
+        return matches
+        
     except requests.exceptions.HTTPError as e:
-        print(f"HTTP Error: {e}")
+        print(f"HTTP Error for {event['name']}: {e}")
         print(f"Status Code: {e.response.status_code}")
         print(f"Response: {e.response.text[:500]}")
+        return []
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error checking {event['name']}: {e}")
+        return []
 
+def main():
+    all_matches = []
+    
+    for event in EVENTS:
+        print(f"Checking {event['name']}...")
+        matches = check_event(event)
+        
+        if matches:
+            event_section = f"🎟️ {event['name']}:\n" + "\n\n".join(matches)
+            all_matches.append(event_section)
+    
+    if all_matches:
+        message = "🎟️ Ticket matches found!\n\n" + "\n\n" + "="*40 + "\n\n".join(all_matches)
+        print(message)
+        send_telegram_message(message)
+    else:
+        print("No matching tickets found for any event.")
+
+if __name__ == "__main__":
+    main()
 if __name__ == "__main__":
     main()
