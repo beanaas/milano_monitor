@@ -26,11 +26,6 @@ EVENTS = [
         "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253536/?affiliate=26O"
     },
     {
-        "event_id": "19253513",
-        "name": "DEN-LAT",
-        "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-rho-ice-hockey-arena-19253513/?affiliate=26O"
-    },
-    {
         "event_id": "19253535",
         "name": "USA-DEN",
         "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253535/?affiliate=26O"
