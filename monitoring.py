@@ -16,19 +16,23 @@ def send_telegram_message(message):
 # === Events to monitor ===
 EVENTS = [
     {
-        "event_id": "19253531",
-        "name": "SWE-SVK",
-        "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santa-giulia-ice-hockey-arena-19253531/?affiliate=26O&language=en#/generic/"
+        "event_id": "19253513",
+        "name": "DEN-LAT",
+        "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santa-giulia-ice-hockey-arena-19253513/?affiliate=26O&language=en#/generic/"
     },
     {
         "event_id": "19253536",
-        "name": "CAN-LAT",
+        "name": "CAN-Fra",
         "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253536/?affiliate=26O"
     },
     {
         "event_id": "19253535",
         "name": "USA-DEN",
         "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253535/?affiliate=26O"
+    },{
+        "event_id": "19253528",
+        "name": "SUI-CZE",
+        "ticket_url": "https://tickets.milanocortina2026.org/en/event/hockey-su-ghiaccio-milano-santagiulia-ice-hockey-arena-19253528/?affiliate=26O"
     },
     # Add more events here as needed
     # {
@@ -41,7 +45,7 @@ EVENTS = [
 # === Ticket scraper setup ===
 API_URL_TEMPLATE = "https://api-cloud.eventim.com/ecom/resale/offer-listing/prd/api/v2/platforms/38/events/{event_id}/offers"
 MAX_PRICE_PER_TICKET = 100
-MIN_TICKETS = 2
+MIN_TICKETS = 1
 
 headers = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
